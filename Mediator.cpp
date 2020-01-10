@@ -8,6 +8,11 @@ Mediator::Mediator(Sectioner* worker)
 	extractFunctions();
 }
 
+int Mediator::getIdxInputSize(int index)
+{
+	return funcs[index].getInputSize();
+}
+
 void Mediator::extractFunctions()
 {
 	// First, extract the signatures and names out of the functions.
@@ -19,12 +24,19 @@ void Mediator::extractFunctions()
 
 	// The first byte is the number of functions that will get extracted
 	int offset = 0;
-	const byte numberOfFuncs = byteString[offset];
+	byte numberOfFuncs = byteString[offset];
 	offset++;
 
 	// for each function. . .
 	for(int i = 0; i < numberOfFuncs; ++i)
 	{
+		// Check if the function at the index was imported. If it was, extend the number of funcs
+		if(funcs[i].isImported)
+		{
+			numberOfFuncs++;
+			continue;
+		}
+
 		// The first four bytes are the encoded function length, so extract that.
 		char lebLength[4];
 		for (char& k : lebLength)
@@ -82,20 +94,44 @@ void Mediator::populateFunctions(std::vector< std::pair< std::vector<dataDef>, d
 
 	// The first bytes are representative of the length of the section, which is the number of defined functions in the module
 	int offset = 0;
-	int size = 0;
-	offset += getNextu32(byteCode, 0, size);
+	int moduleSize = 0;
+	offset += getNextu32(byteCode, 0, moduleSize);
+
+	// Grab the imported size and table
+	auto importedFuncs = extractImports();
+	int importedSize = importedFuncs.size();
+
+	int totalSize = moduleSize + importedSize;
 
 	// For each value from the offset to the end, we need to create a function
 	// with the definitions provided in our pairs array.
-	for(int i = 0; i < size; ++i)
+	for(int i = 0; i < moduleSize; ++i)
 	{
 		byte idx = byteCode[offset];
 		offset++;
 
-		// Double check that the imported functions are established correctly.
+		// Check if the idx is
+		
+		// Figure out of the idx is present in the pairs or in the importedFuncions table
+		Function next;
+		next = Function(pairs[idx].first, pairs[idx].second);
+	
+		//Function next = Function(pairs[idx].first, pairs[idx].second);
+		funcs[idx] = next;
+		//funcs.push_back(next);
+	}
 
-		Function next = Function(pairs[idx].first, pairs[idx].second);
-		funcs.push_back(next);
+	// Do a second pass to extract the imported functions. This part is simple; test up to the total size and
+	// insert a function if it exists in the imported table
+	for(int i = 0; i < totalSize; ++i)
+	{
+		if(importedFuncs.find(i) != importedFuncs.end())
+		{
+			Function next = Function(pairs[i].first, pairs[i].second);
+			next.setTitle(importedFuncs[i]);
+			next.isImported = true;
+			funcs[i] = next;
+		}
 	}
 	
 }
@@ -104,10 +140,10 @@ void Mediator::populateFunctions(std::vector< std::pair< std::vector<dataDef>, d
 /// In this case, the functions used become part of THIS modules function table.
 /// Therefore, we have to load the import section and parse through it to add
 /// references to functions that we have no definition for, just a name and funcidx.</summary>
-std::map<int, Function> Mediator::extractImports() const
+std::map<int, std::string> Mediator::extractImports() const
 {
 	// Load the byte data for this section. It it is empty, return.
-	std::map<int, Function> importedFuncs;
+	std::map<int, std::string> importedFuncs;
 	std::vector<byte> byteString = worker->getSection(0x02);
 	if (byteString.empty())
 		return importedFuncs;
@@ -150,12 +186,13 @@ std::map<int, Function> Mediator::extractImports() const
 		if (importDesc == 0x00)
 		{
 			// The next byte is the funcidx that we need
-			Function next = Function();
-			next.setTitle(ss.str());
+			//Function next = Function();
+			//next.setTitle(ss.str());
+			//next.isImported = true;
 
 			byte funcidx = byteString[offset];
 			offset++;
-			importedFuncs[funcidx] = next;
+			importedFuncs[funcidx] = ss.str();
 		}
 		else
 			offset++;

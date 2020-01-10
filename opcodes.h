@@ -122,15 +122,15 @@ namespace opcodes
 		const ins i64_load16_u{ 0x33, "i64_load16_u", 2, 1 };
 		const ins i64_load32_s{ 0x34, "i64_load32_s", 2, 1 };
 		const ins i64_load32_u{ 0x35, "i64_load32_u", 2, 1 };
-		const ins i32_store{ 0x36, "i32_store", 2, 2 };
-		const ins i64_store{ 0x37, "i64_store", 2, 2 };
-		const ins f32_store{ 0x38, "f32_store", 2, 2 };
-		const ins f64_store{ 0x39, "f64_store", 2, 2 };
-		const ins i32_store8{ 0x3a, "i32_store8", 2, 2 };
-		const ins i32_store16{ 0x3b, "i32_store16", 2, 2 };
-		const ins i64_store8{ 0x3c, "i64_store8", 2, 2 };
-		const ins i64_store16{ 0x3d, "i64_store16", 2, 2 };
-		const ins i64_store32{ 0x3e, "i64_store32", 2, 2 };
+		const ins i32_store{ 0x36, "i32_store", 2, 1 };
+		const ins i64_store{ 0x37, "i64_store", 2, 1 };
+		const ins f32_store{ 0x38, "f32_store", 2, 1 };
+		const ins f64_store{ 0x39, "f64_store", 2, 1 };
+		const ins i32_store8{ 0x3a, "i32_store8", 2, 1 };
+		const ins i32_store16{ 0x3b, "i32_store16", 2, 1 };
+		const ins i64_store8{ 0x3c, "i64_store8", 2, 1 };
+		const ins i64_store16{ 0x3d, "i64_store16", 2, 1 };
+		const ins i64_store32{ 0x3e, "i64_store32", 2, 1 };
 		const ins memory_size{ 0x3f, "memory_size", 1, 0, 0x00 };
 		const ins memory_grow{ 0x40, "memory_grow", 1, 1, 0x00 };
 	}

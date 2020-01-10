@@ -15,16 +15,18 @@ class Mediator
 public:
 	Mediator(Sectioner* worker);
 
+	int getIdxInputSize(int index);
+
 private:
 	void extractFunctions();
 	void populateFunctions(std::vector<std::pair<std::vector<dataDef>, dataDef>> pairs);
-	std::map<int, Function> extractImports() const;
+	std::map<int, std::string> extractImports() const;
 	void extractSignatures();
 	void extractNames();
 
 	int numberOfFuncs = 0;
 	Sectioner * worker;
-	std::vector<Function> funcs;
+	std::map<int, Function> funcs;
 };
 
 #endif // MEDIATOR_H

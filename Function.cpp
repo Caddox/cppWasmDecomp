@@ -79,6 +79,15 @@ void Function::decodeFunction(std::vector<byte>& in)
 			continue;
 		}
 
+		// To handle external calls, check the function itself to see how many other items need to come off the stack
+		// Do this by setting the temp's bytesComsumed equal to the size of the function inputs
+		//if(next.op == 0x10 || next.op == 0x11)
+		//{
+		//	temp.op.bytesConsumed += funcInputs.size();
+		//}
+		// We can't actually do this right now, so just ignore it.
+
+
 		// Now, check if the instruction consumes any previous bytes
 		if(next.bytesConsumed != 0)
 		{
@@ -148,6 +157,17 @@ void Function::decodeFunction(std::vector<byte>& in)
 	statements = statementStack;
 }
 
+/// <summary>Getter function that returns the title</summary>
+std::string Function::getTitle()
+{
+	return funcName;
+}
+
+int Function::getInputSize() const
+{
+	return funcInputs.size();
+}
+
 /// <summary>This function emits the next byte in the byte stream sequence
 /// and keeps track of where you are. It starts at 0 and goes to the end.</summary>
 byte Function::nextByte()
@@ -183,7 +203,7 @@ void Function::getValueBytes(const opcodes::ins& ins, oper& oper)
 
 			for (int i = 0; i < maxLength; ++i)
 			{
-				if ((next <= 0x7f && (ins.op != 0x42 && ins.op != 0x44)))
+				if (next <= 0x7f) // && (ins.op != 0x42 && ins.op != 0x44)))
 				{
 					// break out
 					temp.push_back(next);
@@ -265,7 +285,7 @@ std::string printStatement(statement* top)
 				list[i] = o;
 				++i;
 			}
-			if (op == 0x41) //integer
+			if (op == 0x42) //integer
 				ss << ' ' << u_decLEB32(list);
 			else
 				ss << ' ' << decodeDouble(list);

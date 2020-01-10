@@ -4,6 +4,11 @@
 int getFileSize(const std::string& cs)
 {
 	std::ifstream infile(cs.c_str(), std::ios::binary);
+	if(!infile)
+	{
+		std::string ex = "File " + cs + " failed to open";
+		throw std::exception(ex.c_str());
+	}
 	infile.seekg(0, std::ios::end);
 	int temp = infile.tellg();
 	infile.close();

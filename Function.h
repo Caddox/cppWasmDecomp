@@ -73,19 +73,21 @@ public:
 	void decodeFunction(std::vector<byte>& in);
 
 	friend std::ostream& operator<<(std::ostream& out, const Function& c); // Print function to see the current results.
+	std::string getTitle();
+	int getInputSize() const;
+	int getOtherInputSize(int funcIdx);
 
 	std::stack<statement*> statements;
+	bool isImported = false;
 
 private:
 	byte nextByte();
 	void getValueBytes(const opcodes::ins& ins, oper& oper);
 
-
 	std::string funcName{};
 	std::vector<dataDef> funcInputs{};
 	dataDef funcOutputs{};
 	std::stack<oper> ops;
-
 
 	std::vector<byte> byteCode{};
 	int loc = 0;

@@ -21,5 +21,4 @@ int main(int argc, char** argv)
 	// TODO: Verify the file is a well-formed.
 	Sectioner reader = Sectioner(filename);
 	Mediator middle = Mediator(&reader);
-	system("pause");
 }
