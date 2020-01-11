@@ -1,0 +1,36 @@
+[meta]
+type = "cpp"
+args = "<c++11"
+implicit_return = false
+boiler = """
+typedef i32 int;
+typedef i64 int;
+typedef f32 float;
+typedef f64 double;
+"""
+
+# Symbols used in mathematics and variable assignment.
+[symbols]
+add = "+"
+sub = "-"
+multiply = "*"
+divide = "/"
+not = "!"
+set = "="
+index_open = "["
+index_close = "]"
+paren_open = ")"
+paren_close = ")"
+
+# Type names to place in front of variables and functions
+[types]
+i32 = "i32"
+i64 = "i64"
+f32 = "f32"
+f64 = "f64"
+none = "void"
+
+[blocks]
+block_open = '{'
+block_close = '}'
+indent = '    '
