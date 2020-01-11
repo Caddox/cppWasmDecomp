@@ -30,6 +30,9 @@
     <ClCompile Include="opcodes.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Translator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Sectioner.h">
@@ -45,6 +48,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="opcodes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Translator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="cpptoml.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

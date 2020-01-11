@@ -4,6 +4,7 @@
 #include <sstream>
 #include <vector>
 #include <stack>
+#include <map>
 #include "Sectioner.h"
 #include "opcodes.h"
 
@@ -79,6 +80,7 @@ public:
 
 	std::stack<statement*> statements;
 	bool isImported = false;
+	std::map< int, std::pair< std::vector<dataDef>, dataDef> >* funcSizes;
 
 private:
 	byte nextByte();

@@ -81,11 +81,11 @@ void Function::decodeFunction(std::vector<byte>& in)
 
 		// To handle external calls, check the function itself to see how many other items need to come off the stack
 		// Do this by setting the temp's bytesComsumed equal to the size of the function inputs
-		//if(next.op == 0x10 || next.op == 0x11)
-		//{
-		//	temp.op.bytesConsumed += funcInputs.size();
-		//}
-		// We can't actually do this right now, so just ignore it.
+		if(next.op == 0x10 || next.op == 0x11)
+		{
+			int funcIdx = temp.bytes[0];
+			next.bytesConsumed += funcSizes->at(funcIdx).first.size();
+		}
 
 
 		// Now, check if the instruction consumes any previous bytes
@@ -306,6 +306,8 @@ std::string printStatement(statement* top)
 		return output;
 	if (left != nullptr && right == nullptr)
 		return output + ' ' + leftOut;
+	if (top->operation.op.op == 0x10)
+		return output + " (" + leftOut + ") " + rightOut;
 	return rightOut + ' ' + output + ' ' + leftOut; // Backwards because Reverse Polish Notation (aka I'm dumb)
 }
 

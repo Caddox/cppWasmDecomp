@@ -16,6 +16,7 @@ public:
 	Mediator(Sectioner* worker);
 
 	int getIdxInputSize(int index);
+	std::map< int, std::pair< std::vector<dataDef>, dataDef> > funcSizeTable;
 
 private:
 	void extractFunctions();

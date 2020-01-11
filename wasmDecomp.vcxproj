@@ -128,13 +128,16 @@
     <ClCompile Include="Mediator.cpp" />
     <ClCompile Include="opcodes.cpp" />
     <ClCompile Include="Sectioner.cpp" />
+    <ClCompile Include="Translator.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="cpptoml.h" />
     <ClInclude Include="Function.h" />
     <ClInclude Include="maths.h" />
     <ClInclude Include="Mediator.h" />
     <ClInclude Include="opcodes.h" />
     <ClInclude Include="Sectioner.h" />
+    <ClInclude Include="Translator.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

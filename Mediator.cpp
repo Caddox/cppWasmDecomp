@@ -77,6 +77,7 @@ void Mediator::extractFunctions()
 		}
 
 		// Send the function byte code to the function representation for it to do it's thing.
+		funcs[i].funcSizes = &funcSizeTable;
 		funcs[i].decodeFunction(byteCode);
 		std::cout << funcs[i] << std::endl;
 	}
@@ -117,6 +118,7 @@ void Mediator::populateFunctions(std::vector< std::pair< std::vector<dataDef>, d
 		next = Function(pairs[idx].first, pairs[idx].second);
 	
 		//Function next = Function(pairs[idx].first, pairs[idx].second);
+		funcSizeTable[idx] = pairs[idx];
 		funcs[idx] = next;
 		//funcs.push_back(next);
 	}
@@ -130,6 +132,7 @@ void Mediator::populateFunctions(std::vector< std::pair< std::vector<dataDef>, d
 			Function next = Function(pairs[i].first, pairs[i].second);
 			next.setTitle(importedFuncs[i]);
 			next.isImported = true;
+			funcSizeTable[i] = pairs[i];
 			funcs[i] = next;
 		}
 	}
